@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import retrofit2.Retrofit;
@@ -19,9 +20,12 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 @Slf4j
 public class RestClientConfiguration {
 
+    @Value("${http-client.github.url}")
+    private String github;
+
     @Bean
     GithubApi transactionNotificationApi() {
-        return retroFitConfiguration("https://api.github.com/").create(GithubApi.class);
+        return retroFitConfiguration(github).create(GithubApi.class);
     }
 
     private Retrofit retroFitConfiguration(String url) {
