@@ -43,7 +43,6 @@ public class RestClientConfiguration {
                 .setDateFormat(new StdDateFormat())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
                 .enable(JsonGenerator.Feature.IGNORE_UNKNOWN)
                 .enable(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS);
     }
