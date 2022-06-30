@@ -1,5 +1,6 @@
-package com.global.demo;
+package com.global.demo.api;
 
+import com.global.demo.github.User;
 import retrofit2.Call;
 import retrofit2.http.*;
 

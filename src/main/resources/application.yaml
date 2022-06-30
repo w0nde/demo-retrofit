@@ -1,3 +1,13 @@
 http-client:
   github:
-    url: https://api.github.com/
+    users:
+      base-url: https://api.github.com/
+      connect-timeout:  30
+      read-timeout: 30
+      logging-level: BODY
+  rickandmortyapi:
+    api:
+      base-url: https://rickandmortyapi.com/api/
+      connect-timeout:  30
+      read-timeout: 30
+      logging-level: BODY

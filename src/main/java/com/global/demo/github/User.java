@@ -1,4 +1,4 @@
-package com.global.demo;
+package com.global.demo.github;
 
 import lombok.Data;
 

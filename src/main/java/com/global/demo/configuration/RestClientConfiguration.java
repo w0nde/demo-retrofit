@@ -1,16 +1,16 @@
-package com.global.demo;
+package com.global.demo.configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.global.demo.api.GithubApi;
+import com.global.demo.api.RickAndMortyApi;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import retrofit2.Retrofit;
@@ -20,20 +20,23 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 @Slf4j
 public class RestClientConfiguration {
 
-    @Value("${http-client.github.url}")
-    private String github;
 
     @Bean
-    GithubApi transactionNotificationApi() {
-        return retroFitConfiguration(github).create(GithubApi.class);
+    GithubApi githubApi(EndpointsConfig.Endpoint githubEndpoint) {
+        return retroFitConfiguration(githubEndpoint).create(GithubApi.class);
     }
 
-    private Retrofit retroFitConfiguration(String url) {
+    @Bean
+    RickAndMortyApi rickAndMortyApi(EndpointsConfig.Endpoint rickandmortyEndpoint) {
+        return retroFitConfiguration(rickandmortyEndpoint).create(RickAndMortyApi.class);
+    }
+
+    private Retrofit retroFitConfiguration(EndpointsConfig.Endpoint endpoint) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         return new Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl(endpoint.getBaseUrl())
                 .client(client)
                 .addConverterFactory(JacksonConverterFactory.create(getObjectMapper()))
                 .build();
